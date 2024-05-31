@@ -10,10 +10,10 @@
 	path = Simulation Codes/offboard_ws/src/px4_msgs
 	url = https://github.com/PX4/px4_msgs.git
 	branch = release/1.14
-[submodule "Simulation Codes/PX4-Offboard/px4_msgs"]
-	path = Simulation Codes/PX4-Offboard/px4_msgs
-	url = https://github.com/PX4/px4_msgs.git
-	branch = release/1.14
 [submodule "Simulation Codes/PX4-gazebo-models"]
 	path = Simulation Codes/PX4-gazebo-models
 	url = https://github.com/PX4/PX4-gazebo-models.git
+[submodule "Simulation Codes/PX4-Offboard/src/px4_msgs"]
+	path = Simulation Codes/PX4-Offboard/src/px4_msgs
+	url = https://github.com/PX4/px4_msgs.git
+	branch = release/1.14
