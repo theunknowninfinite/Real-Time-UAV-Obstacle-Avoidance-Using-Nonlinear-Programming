@@ -1,0 +1,16 @@
+[submodule "Onboard Codes/docker_ws/src/px4_msgs"]
+	path = Onboard Codes/docker_ws/src/px4_msgs
+	url = https://github.com/PX4/px4_msgs.git
+	branch = release/1.14
+[submodule "Onboard Codes/ros2_ws/src/px4_msgs"]
+	path = Onboard Codes/ros2_ws/src/px4_msgs
+	url = https://github.com/PX4/px4_msgs.git
+	branch = release/1.14
+[submodule "Simulation Codes/offboard_ws/src/px4_msgs"]
+	path = Simulation Codes/offboard_ws/src/px4_msgs
+	url = https://github.com/PX4/px4_msgs.git
+	branch = release/1.14
+[submodule "Simulation Codes/PX4-Offboard/px4_msgs"]
+	path = Simulation Codes/PX4-Offboard/px4_msgs
+	url = https://github.com/PX4/px4_msgs.git
+	branch = release/1.14
