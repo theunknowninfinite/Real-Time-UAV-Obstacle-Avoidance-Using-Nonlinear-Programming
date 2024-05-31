@@ -1,1 +1,2 @@
-# Real Time UAV Obstacle Avoidance Using NonLinear Programming
+# Real-Time UAV Obstacle Avoidance Using NonLinear Programming
+This project showcases real-time obstacle avoidance in UAVs, utilizing the ModalAI Voxl 2 Sentinel Drone with the PX4 flight stack and an Intel Realsense D435i camera to precisely detects obstacles in its environment. By incorporating the detected object positions as constraints in a non-linear programming based path planning algorithm, the UAV autonomously generates smooth and safe flight paths with a defined distance threshold around these obstacles. Accounting for room dimensions and drone dynamics, these paths ensure efficient and secure navigation, enabling the drone to reach its designated destination accurately and reliably.
