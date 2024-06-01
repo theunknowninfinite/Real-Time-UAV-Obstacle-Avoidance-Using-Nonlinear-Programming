@@ -52,6 +52,7 @@ Before running the offboard control scripts, ensure QGroundControl is started an
 
 #### 4.1 Run Trajectory Tracker
 
+Video demonstrating the tracker following a square trajectory: </br>
 [![YouTube](http://i.ytimg.com/vi/AAhBlBkOZPs/hqdefault.jpg)](https://www.youtube.com/watch?v=AAhBlBkOZPs)
 
 To run the straight-line trajectory tracker between a set of goal points, execute the following command:
