@@ -55,13 +55,16 @@ Before running the offboard control scripts, ensure QGroundControl is started an
 Video demonstrating the tracker following a square trajectory: </br>
 [![YouTube](http://i.ytimg.com/vi/AAhBlBkOZPs/hqdefault.jpg)](https://www.youtube.com/watch?v=AAhBlBkOZPs)
 
-To run the straight-line trajectory tracker between a set of goal points, execute the following command:
+To run the optimal trajectory tracker between a set of goal points, execute the following command:
 
 ```bash
 python3 trajectory_tracker.py
 ```
 
 #### 4.2 Run Obstacle Avoidance 
+
+Video demonstrating obstacle avoidance between a set of goal points: </br>
+[![YouTube](http://i.ytimg.com/vi/w9qlEVhUz7A/hqdefault.jpg)](https://www.youtube.com/watch?v=w9qlEVhUz7A)
 
 To run the obstacle avoidance script that maintains a 1-meter distance threshold from obstacles, use the command:
 
