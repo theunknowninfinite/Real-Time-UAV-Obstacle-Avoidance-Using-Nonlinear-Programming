@@ -5,7 +5,7 @@ from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPo
 from px4_msgs.msg import OffboardControlMode, TrajectorySetpoint, VehicleCommand, VehicleLocalPosition, VehicleStatus
 
 from gekko import GEKKO
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 class OffboardControl(Node):
     """Node for controlling a vehicle in offboard mode."""
@@ -43,7 +43,8 @@ class OffboardControl(Node):
         self.wait_time = 7 / self.dt
 
         # Set the goal variables
-        self.goal_points = [(3.0, 0.0, -1.0), (0.0, 0.0, -1.0)]
+        self.goal_points = [(10.0, 0.0, -2.0), (0.0, 0.0, -2.0)]
+        # self.goal_points = [(3.0, 0.0, -2.0), (0.0, 0.0, -2.0)]
         # self.goal_points = [(10.0, 0.0, -1.0), (0.0, 10.0, -1.0), (-10.0, 0.0, -1.0)]
         self.goal_counter = 0
         self.goal_wait_counter = 1
@@ -205,14 +206,17 @@ class OffboardControl(Node):
                 z = np.linspace(Z[i], Z[i+1], steps)[1:]
 
                 # Append the waypoint only if it is not too close to the previous waypoint
-                # if self.distance((x[0], y[0], z[0]), self.waypoints[-1]) > 0.3:
-                #     self.waypoints += [(x[j], y[j], z[j]) for j in range(len(x))]
-                self.waypoints += [(x[j], y[j], z[j]) for j in range(len(x))]
+                for j in range(len(x)):
+                    if self.distance(self.waypoints[-1], (x[j], y[j], z[j])) > 0.1:
+                        self.waypoints.append((x[j], y[j], z[j]))
+                # self.waypoints += [(x[j], y[j], z[j]) for j in range(len(x))]
             print("Number of Waypoints: ", len(self.waypoints))
 
             # Add the final point to the waypoints if it is not already there
             if self.waypoints[-1] != (Xf, Yf, Zf):
-                self.waypoints += [(Xf, Yf, Zf)]
+                # self.waypoints += [(Xf, Yf, Zf)]
+                # Replace the last point with the final point
+                self.waypoints[-1] = (Xf, Yf, Zf)
             
             # Make a 2D plot of the position
             # fig, ax = plt.subplots(3, 1, figsize=(10, 10))
@@ -225,18 +229,19 @@ class OffboardControl(Node):
             # plt.show()
 
             # Plot the x and y values in a 2D plot
-            # plt.figure()
-            # plt.plot([v[0] for v in self.waypoints], [v[1] for v in self.waypoints], 'r')
-            # # Plot the obstacle
-            # plt.scatter(X_obs1, Y_obs1, color='r', marker='x')
-            # # Plot the starting point
-            # plt.scatter(X0, Y0, color='g', marker='x')
-            # # Plot the ending point
-            # plt.scatter(Xf, Yf, color='b', marker='x')
-            # # Set the scale equally
-            # plt.axis('equal')
-            # plt.grid()
-            # plt.show()
+            plt.figure()
+            plt.plot([v[0] for v in self.waypoints], [v[1] for v in self.waypoints], 'r')
+            # plt.scatter([v[0] for v in self.waypoints], [v[1] for v in self.waypoints], color='r')
+            # Plot the obstacle
+            plt.scatter(X_obs1, Y_obs1, color='r', marker='x')
+            # Plot the starting point
+            plt.scatter(X0, Y0, color='g', marker='x')
+            # Plot the ending point
+            plt.scatter(Xf, Yf, color='b', marker='x')
+            # Set the scale equally
+            plt.axis('equal')
+            plt.grid()
+            plt.show()
 
             # Print the waypoints
             # print("Waypoints: ", self.waypoints)

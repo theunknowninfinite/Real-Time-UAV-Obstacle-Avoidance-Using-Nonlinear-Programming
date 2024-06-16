@@ -1,0 +1,1 @@
+ros2 run tf2_ros static_transform_publisher 0 0 2 0 0 0 map x500_depth_0/OakD-Lite/base_link/StereoOV7251
