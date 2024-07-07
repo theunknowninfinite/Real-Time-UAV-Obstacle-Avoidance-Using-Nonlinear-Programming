@@ -6,83 +6,84 @@ This project showcases real-time obstacle avoidance in UAVs by utilizing the Mod
 This guide provides step-by-step instructions to launch the PX4 simulation, including setting up the necessary environment, starting essential services, and running trajectory and obstacle avoidance scripts.
 
 # Setting up the Simulation 
+
 ## Prerequisites
 Make sure docker is installed on the host linux pc. 
 
 ## Setting Up Docker Container 
 
 1. Pull the latest ubuntu 22.04 image by 
-
 ```bash
 docker pull ubuntu:22.04
 ```
+
 2. Use the `Simulation Codes` as the mounting point for your docker container so that you can access the files in docker as well as the host. A docker container can be opened by using the script `Simulation Codes/run_simclassic_docker.sh `. Make sure to edit the script for the right docker image. 
 
 The list of docker images on the host can be seen by using `docker images`.
 
 3. Run the following commands to install git and PX4 sim.
 ```bash
-    apt update && apt install git
-    apt-get install sudo # makes using sudo commands copied from internet easier to run 
-    git clone https://github.com/PX4/PX4-Autopilot.git -b release/1.14 --recursive
-    ./Tools/setup/ubuntu.sh # this installs prerequisties 
-    pip uninstall em && pip install empy==3.3.4
-
+apt update && apt install git
+apt-get install sudo # makes using sudo commands copied from internet easier to run 
+git clone https://github.com/PX4/PX4-Autopilot.git -b release/1.14 --recursive
+./Tools/setup/ubuntu.sh # this installs prerequisties 
+pip uninstall em && pip install empy==3.3.4
 ```
-4. Go into the PX4 folder and run `make px4_sitl gz_x500_depth`. A window that says Gazebo Sim starts up. If it has, then the sim ahs been successfully installed. This will open the drone in a empty world. To open in a simulated world , run ` make px4_sitl gz_x500_depth_baylands` 
+
+4. To verify the successful installation of the simulator, navigate to the PX4 folder and execute the command `make px4_sitl gz_x500_depth`. If a window labeled "Gazebo Sim" appears, it indicates that the simulator has been installed correctly. This command will launch the drone in an empty world. To load the drone in a simulated environment, use the command `make px4_sitl gz_x500_depth_baylands`. 
 
 5. Install ROS2 humble in the docker image by following instructions from [ROS Docs](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
 
 6. Install the apt version of Gazebo for ROS Humble by following this [link](https://gazebosim.org/docs/latest/ros_installation). 
 
-
 7. Make a directory in the root of the workspace and clone ros_gz bridge.
-
 ```bash
-    mkdir -p ros2_gzbridge/src
-    cd ros2_gzbridge/src
-    git clone https://github.com/gazebosim/ros_gz.git -b humble
-    export GZ_VERSION=garden
+mkdir -p ros2_gzbridge/src
+cd ros2_gzbridge/src
+git clone https://github.com/gazebosim/ros_gz.git -b humble
+export GZ_VERSION=garden
 ```
 
-8. Now go back to the root of the workspace and install dependencies for `ros_gz bridge`.Then do colcon build of the same. 
-
+8. Now go back to the root of the workspace and install dependencies for `ros_gz bridge`, then execute a colcon build of the same:
 ```bash
-    cd .. 
-    rosdep install -r --from-paths src -i -y --rosdistro humble
-    source /opt/ros/humble/setup.bash
-    colcon build
+cd .. 
+rosdep install -r --from-paths src -i -y --rosdistro humble
+source /opt/ros/humble/setup.bash
+colcon build
 ```
+
 9. Commit the docker container by getting the name of the docker container by running `docker ps` and then:
 ```bash
-    docker commit name_of_docker_container name_of_image:version
+docker commit name_of_docker_container name_of_image:version
 ```
-The `name_of_image` can be any name as desired, and the same goes for `version`. Now exit the docker container.This is for ensuring the same terminal used to build is not used to isolate build artifacts.
+
+The `name_of_image` and `version` can be any desired names. Once you have specified these, exit the Docker container. This ensures that the terminal used for building is not the same one used for isolating build artifacts.
 
 10. Run the script to open the docker container again from step 2, with the required edits to change to respective image name and version from step 9. Source the built ros-gz_bridge:
-
 ```bash
-    source ros2_gzbridge/install/setup.bash
+source ros2_gzbridge/install/setup.bash
 ```
-11. Make a folder called models and run the script as given below to source gazebo.
+
+11. Make a folder called `models` and run the script as given below to source gazebo.
 Make sure to edit the path in the script before it is run. 
 ```bash
-    ."/home/s/Downloads/Files/Simulation Codes/set_GZ_SIM_RESOURCE_PATH-2.sh"
-
+."/home/s/Downloads/Files/Simulation Codes/set_GZ_SIM_RESOURCE_PATH-2.sh"
 ```
-12. After it is sourced, the command to open PX4 sim can be run. Using the below mentioned script, it will open the sim. 
 
-
+12. Once it is sourced, you can run the command to open the PX4 simulator using the script provided below. This command will launch the simulator:
 ```bash
-    ./Simulation Codes/run_baylands_total-1.sh
+./Simulation Codes/run_baylands_total-1.sh
 ```
-QGC can be used to take off and control the drone. QGC can be downloaded from this [link](http://qgroundcontrol.com/).
-## Notes
-- It is recommended to create a folder and always start the docker container from it as the command to run the container will mount the specific directory the script is located. Docker containers typically sandbox themselves from the host system.
-- Incase the PX4 sim with baylands does not open , try running ` cd px4-models && python3 simulation-gazebo --world baylands` and ` cd PX4-Autopilot && PX4_GZ_STANDALONE=1 make px4_sitl gz_x500_depth` in seperate terminals from the root folder. of the workspace. 
-# Running the Simulation
-## Prerequisites
 
+QGC can be used to take off and control the drone, which can be downloaded from this [link](http://qgroundcontrol.com/).
+
+## Notes
+- It is recommended to create a folder and always start the Docker container from it, as the command to run the container will mount the specific directory where the script is located. Docker containers typically sandbox themselves from the host system.
+- If the PX4 simulator with baylands does not open, try running `cd px4-models && python3 simulation-gazebo --world baylands` and `cd PX4-Autopilot && PX4_GZ_STANDALONE=1 make px4_sitl gz_x500_depth` in separate terminals from the root folder of the workspace.
+
+# Running the Simulation
+
+## Prerequisites
 Ensure the following commands are added to your `.bashrc` file to set up the ROS environment:
 
 ```bash
